@@ -100,7 +100,7 @@ const pokemonJugador = seleccionarPokemonAleatorio();
 const pokemonIA = seleccionarPokemonAleatorio();
 
 console.log(`El jugador ha elegido a ${pokemonJugador.nombre} (${pokemonJugador.tipo})`);
-console.log(`La IA ha elegido a ${pokemonIA.nombre} (${pokemonIA.tipo})`);
+console.log(`El Rival ha elegido a ${pokemonIA.nombre} (${pokemonIA.tipo})`);
 console.log("-------------------------------------------------------------")
 console.log(`HP de ${pokemonJugador.nombre}: ${pokemonJugador.hp_actual}`);
 console.log(`HP de ${pokemonIA.nombre}: ${pokemonIA.hp_actual}\n`);
@@ -146,7 +146,7 @@ function iniciarCombate(pokemonJugador, pokemonIA) {
     }
 
     if (pokemonJugador.estaDerrotado()) {
-        console.log(`${pokemonJugador.nombre} ha sido derrotado. ¡La IA gana!`);
+        console.log(`${pokemonJugador.nombre} ha sido derrotado. ¡El Rival gana!`);
     } else {
         console.log(`${pokemonIA.nombre} ha sido derrotado. ¡Has ganado!`);
     }
