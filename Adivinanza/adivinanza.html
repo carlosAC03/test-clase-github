@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinanza</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <div class="container">
+        <h1>¡Adivina el Número Secreto!</h1>
+        <p>Ingresa un número entre 1 y 100 y presiona el botón para comprobar.</p>
+
+        <input type="number" id="guessInput" placeholder="Ingresa tu número" min="1" max="100">
+        <button id="checkButton">Comprobar</button>
+
+        <div id="message" class="message"></div>
+        <p id="attempts" class="attempts">Número de intentos: 0</p>
+    </div>
+    <script src="adiJS.js"></script>
+</body>
+</html>
