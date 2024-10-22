@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego del Ahorcado</title>
+    <link rel="stylesheet" href="ahorcss.css">
+</head>
+<body>
+    <h1>Juego del Ahorcado</h1>
+    <div id="game-container">
+        <p id="wordDisplay">_ _ _ _ _</p>
+        <p>Intentos restantes: <span id="attempts">6</span></p>
+        <div id="hangman-drawing">
+            <div id="cabeza" class="part" style="display: none;">Cabeza</div>
+            <div id="cuerpo" class="part" style="display: none;">Cuerpo</div>
+            <div id="brazo_izquierdo" class="part" style="display: none;">Brazo izquierdo</div>
+            <div id="brazo_derecho" class="part" style="display: none;">Brazo derecho</div>
+            <div id="pierna_izquierda" class="part" style="display: none;">Pierna izquierda</div>
+            <div id="pierna_derecha" class="part" style="display: none;">Pierna derecha</div>
+        </div>
+        <input type="text" id="guessInput" maxlength="1" placeholder="Escribe una letra">
+        <button id="guessButton">Adivinar</button>
+        <p id="message"></p>
+    </div>
+
+    <script src="ahor.js"></script>
+</body>
+</html>
