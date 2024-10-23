@@ -1,5 +1,5 @@
 
-const secretWords = ['Pikachu', 'Charizard', 'Bulbasaur', 'Agumon', 'Gabumon', 'Squirtle', 'Greymon', 'Tentomon'];
+const secretWords = ['pikachu', 'charizard', 'bulbasaur', 'agumon', 'gabumon', 'squirtle', 'greymon', 'tentomon'];
 const secretWord = secretWords[Math.floor(Math.random() * secretWords.length)];
 
 let revealedWord = '_ '.repeat(secretWord.length).trim();
