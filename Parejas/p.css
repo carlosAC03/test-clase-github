@@ -1,0 +1,37 @@
+body {
+    background-color: #ADD8E6;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #333;
+    margin: 20px 0;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-gap: 10px;
+    justify-content: center;
+}
+
+.carta{
+    background-color: rgb(50, 50, 204);
+    border-radius: 10px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.carta:hover {
+    transform: scale(1.1);
+}
+button{
+    margin-top: 30px;
+    margin-bottom: 30%;
+    padding: 10px;
+    color:azure;
+    background-color: black;
+}
