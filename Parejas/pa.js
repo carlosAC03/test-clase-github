@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         segundaCarta = null;
 
         if ([...cartas].every(carta => carta.textContent !== "❓")) {
-            setTimeout(() => alert("¡Lo has conseguido!"), 500);
+            setTimeout(() => alert("¡GANASTE ;)!"), 500);
         }
     }
 
