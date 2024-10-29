@@ -1,71 +1,76 @@
-
-    let cartas = document.querySelectorAll(".carta");
-    let botonReiniciar = document.getElementById("reiniciar-btn");
-    let cartaSeleccionada = null;
-    let cartasEmparejadas = [];
+document.addEventListener("DOMContentLoaded", () => {
+    const cartas = document.querySelectorAll(".carta");
+    const botonReiniciar = document.getElementById("reiniciar-btn");
+    let cartaVolteada = false;
+    let primeraCarta, segundaCarta;
     let bloqueado = false;
 
-    function mezclarCartas() {
-        let posicionesAleatorias = Array.from(cartas);
-        posicionesAleatorias.sort(() => Math.random() - 0.5);
     
-        let contenedorCartas = document.querySelector(".cartas"); 
-        contenedorCartas.innerHTML = ""; 
-    
-        posicionesAleatorias.forEach(carta => {
-            carta.textContent = "❓";
-            contenedorCartas.appendChild(carta);
-        });
-    
-        cartasEmparejadas = [];
-        cartaSeleccionada = null;
-        botonReiniciar.style.display = "none";
-    }
+    function voltearCarta() {
+        if (bloqueado || this === primeraCarta) return;
 
-    function reiniciarTablero() {
-        cartas.forEach(carta => {
-            carta.textContent = "❓";
-        });
-        mezclarCartas();
-    }
+        this.textContent = this.dataset.fruta;
 
-    function verificarVictoria() {
-        if (cartasEmparejadas.length === cartas.length) {
-            setTimeout(() => {
-                alert("¡Has ganado la partida!");
-                botonReiniciar.style.display = "block";
-            }, 500);
+        if (!cartaVolteada) {
+            
+            cartaVolteada = true;
+            primeraCarta = this;
+        } else {
+            
+            cartaVolteada = false;
+            segundaCarta = this;
+            verificarPareja();
         }
     }
 
-    cartas.forEach(carta => {
-        carta.addEventListener("click", () => {
-            if (bloqueado || cartasEmparejadas.includes(carta) || carta === cartaSeleccionada) return;
 
-            carta.textContent = carta.getAttribute("data-fruta");
+    function verificarPareja() {
+        const esPareja = primeraCarta.dataset.fruta === segundaCarta.dataset.fruta;
+        esPareja ? bloquearCartas() : desvoltearCartas();
+    }
 
-            if (!cartaSeleccionada) {
-                cartaSeleccionada = carta;
-            } else {
-                if (cartaSeleccionada.getAttribute("data-fruta") === carta.getAttribute("data-fruta")) {
-                    cartasEmparejadas.push(cartaSeleccionada, carta);
-                    cartaSeleccionada = null;
-                    verificarVictoria();
-                } else {
-                    bloqueado = true;
-                    setTimeout(() => {
-                        carta.textContent = "❓";
-                        cartaSeleccionada.textContent = "❓";
-                        cartaSeleccionada = null;
-                        bloqueado = false;
-                    }, 1000);
-                }
-            }
+    function bloquearCartas() {
+        primeraCarta.removeEventListener("click", voltearCarta);
+        segundaCarta.removeEventListener("click", voltearCarta);
+
+        primeraCarta = null;
+        segundaCarta = null;
+
+        if ([...cartas].every(carta => carta.textContent !== "❓")) {
+            setTimeout(() => alert("¡Lo has conseguido!"), 500);
+        }
+    }
+
+
+    function desvoltearCartas() {
+        bloqueado = true;
+        setTimeout(() => {
+            primeraCarta.textContent = "❓";
+            segundaCarta.textContent = "❓";
+
+            bloqueado = false;
+            primeraCarta = null;
+            segundaCarta = null;
+        }, 1000);
+    }
+
+    function barajearCartas() {
+        cartas.forEach(carta => {
+            const posAleatoria = Math.floor(Math.random() * cartas.length);
+            carta.style.order = posAleatoria;
+            carta.textContent = "❓";
+            carta.addEventListener("click", voltearCarta);
         });
-    });
 
-    botonReiniciar.addEventListener("click", () => {
-        reiniciarTablero();
-    });
+        cartaVolteada = false;
+        primeraCarta = null;
+        segundaCarta = null;
+        bloqueado = false;
+    }
 
-    mezclarCartas();
+    cartas.forEach(carta => carta.addEventListener("click", voltearCarta));
+
+    botonReiniciar.addEventListener("click", barajearCartas);
+
+    barajearCartas();
+});
