@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador de Batalla Pokémon</title>
+  <link rel="stylesheet" href="pokecss.css" />
+</head>
+<body>
+  <div id="pantalla-seleccion">
+    <h2>Selecciona tus Pokémon</h2>
+    <div id="pokemon-list"></div>
+    <button onclick="seleccionarPokemon()">Seleccionar para combate</button>
+  </div>
+
+  <div id="pantalla-vs" style="display: none;">
+    <h2>¡Enfrentamiento!</h2>
+    <div id="jugador-pokemon" class="vs-pokemon"></div>
+    <span>VS</span>
+    <div id="oponente-pokemon" class="vs-pokemon"></div>
+    <button onclick="iniciarCombate()">Iniciar combate</button>
+  </div>
+
+  <div id="pantalla-combate" style="display: none;">
+    <h2>Combate Pokémon</h2>
+    <div id="estado-combate"></div>
+    <button onclick="realizarAtaque()">Atacar</button>
+    <button onclick="defender()">Defender</button>
+  </div>
+
+  <script src="pokejs.js"></script>
+</body>
+</html>
