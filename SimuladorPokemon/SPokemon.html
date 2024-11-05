@@ -1,32 +1,41 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simulador de Batalla Pokémon</title>
-  <link rel="stylesheet" href="pokecss.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulación de Batalla Pokémon</title>
+  <link rel="stylesheet" href="pokecss.css">
 </head>
 <body>
-  <div id="pantalla-seleccion">
-    <h2>Selecciona tus Pokémon</h2>
-    <div id="pokemon-list"></div>
-    <button onclick="seleccionarPokemon()">Seleccionar para combate</button>
-  </div>
+  <header>
+    <h1>Simulación de Batalla Pokémon</h1>
+  </header>
 
-  <div id="pantalla-vs" style="display: none;">
-    <h2>¡Enfrentamiento!</h2>
-    <div id="jugador-pokemon" class="vs-pokemon"></div>
-    <span>VS</span>
-    <div id="oponente-pokemon" class="vs-pokemon"></div>
-    <button onclick="iniciarCombate()">Iniciar combate</button>
-  </div>
+  <main>
 
-  <div id="pantalla-combate" style="display: none;">
-    <h2>Combate Pokémon</h2>
-    <div id="estado-combate"></div>
-    <button onclick="realizarAtaque()">Atacar</button>
-    <button onclick="defender()">Defender</button>
-  </div>
+    <section id="pantalla-seleccion" class="pantalla active">
+      <h2>Selecciona tu Pokémon</h2>
+      <div class="pokemon-list" id="pokemonList"></div>
+      <button onclick="goToScreen('pantalla-vs')">Seleccionar</button>
+    </section>
+    <section id="pantalla-vs" class="pantalla">
+      <h2>¡Enfrentamiento!</h2>
+      <div class="vs-container">
+        <div class="pokemon-display" id="playerPokemon"></div>
+        <span class="vs-text">VS</span>
+        <div class="pokemon-display" id="opponentPokemon"></div>
+      </div>
+      <button onclick="goToScreen('pantalla-combate')">Comenzar Batalla</button>
+    </section>
+    <section id="pantalla-combate" class="pantalla">
+      <h2>¡Batalla en Curso!</h2>
+      <div id="battleField">
+        <div id="battleStats"></div>
+        <button onclick="performAttack()">Atacar</button>
+        <button onclick="performDefend()">Defender</button>
+      </div>
+    </section>
+  </main>
 
   <script src="pokejs.js"></script>
 </body>
