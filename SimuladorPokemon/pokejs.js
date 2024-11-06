@@ -155,6 +155,7 @@ const pokemons = [
   
 let playerSelection, opponentSelection;
 
+// Cargar la lista de Pokémon en la pantalla de selección
 function loadPokemonList() {
   const pokemonList = document.getElementById("pokemonList");
   pokemonList.innerHTML = '';
@@ -173,33 +174,18 @@ function loadPokemonList() {
   });
 }
 
+// Seleccionar un Pokémon y destacar visualmente el seleccionado
 function selectPokemon(pokemon) {
   playerSelection = pokemon;
 
-  // Cambiar el fondo del Pokémon seleccionado
-  const cards = document.querySelectorAll(".pokemon-card");
-  cards.forEach(card => card.classList.remove("selected"));
-
-  const selectedElement = [...cards].find(
+  document.querySelectorAll(".pokemon-card").forEach(card => card.classList.remove("selected"));
+  const selectedCard = [...document.querySelectorAll(".pokemon-card")].find(
     card => card.querySelector("h3").innerText === pokemon.name
   );
-  if (selectedElement) {
-    selectedElement.classList.add("selected");
-  }
-
-  opponentSelection = pokemons[Math.floor(Math.random() * pokemons.length)];
+  selectedCard.classList.add("selected");
 }
 
-function goToScreen(screenId) {
-  document.querySelectorAll(".pantalla").forEach(screen => screen.classList.remove("active"));
-  document.getElementById(screenId).classList.add("active");
-
-  if (screenId === "pantalla-vs") {
-    showVsScreen();
-  } else if (screenId === "pantalla-combate") {
-    setupBattle();
-  }
-}
+// Navegar a la pantalla de enfrentamiento
 function navigateToVs() {
   if (!playerSelection) {
     alert("Selecciona un Pokémon primero.");
@@ -209,38 +195,51 @@ function navigateToVs() {
   window.location.href = "SPokemon2.html";
 }
 
+// Navegar a la pantalla de combate
 function navigateToCombate() {
   opponentSelection = pokemons[Math.floor(Math.random() * pokemons.length)];
   localStorage.setItem("opponentSelection", JSON.stringify(opponentSelection));
   window.location.href = "SPokemon3.html";
 }
+
+// Mostrar los datos en la pantalla de enfrentamiento
 function showVsScreen() {
+  const playerData = JSON.parse(localStorage.getItem("playerSelection"));
+  playerSelection = playerData;
+
   document.getElementById("playerPokemon").innerHTML = `
     <img src="${playerSelection.img}" alt="${playerSelection.name}">
     <h3>${playerSelection.name}</h3>
   `;
+
+  opponentSelection = pokemons[Math.floor(Math.random() * pokemons.length)];
+  localStorage.setItem("opponentSelection", JSON.stringify(opponentSelection));
+
   document.getElementById("opponentPokemon").innerHTML = `
     <img src="${opponentSelection.img}" alt="${opponentSelection.name}">
     <h3>${opponentSelection.name}</h3>
   `;
 }
 
+// Configurar la batalla al entrar en la pantalla de combate
 function setupBattle() {
-  const playerImage = document.getElementById("playerImage");
-  const opponentImage = document.getElementById("opponentImage");
-  const playerHealthBar = document.getElementById("playerHealth");
-  const opponentHealthBar = document.getElementById("opponentHealth");
+  const playerData = JSON.parse(localStorage.getItem("playerSelection"));
+  const opponentData = JSON.parse(localStorage.getItem("opponentSelection"));
 
-  playerImage.src = playerSelection.img;
-  opponentImage.src = opponentSelection.img;
+  playerSelection = playerData;
+  opponentSelection = opponentData;
 
-  playerHealthBar.style.width = "100%";
-  playerHealthBar.style.backgroundColor = "green";
+  document.getElementById("playerImage").src = playerSelection.img;
+  document.getElementById("opponentImage").src = opponentSelection.img;
 
-  opponentHealthBar.style.width = "100%";
-  opponentHealthBar.style.backgroundColor = "green";
+  document.getElementById("playerHealth").style.width = "100%";
+  document.getElementById("playerHealth").style.backgroundColor = "green";
+
+  document.getElementById("opponentHealth").style.width = "100%";
+  document.getElementById("opponentHealth").style.backgroundColor = "green";
 }
 
+// Realizar un ataque
 function performAttack() {
   playerSelection.hp -= opponentSelection.attack;
   opponentSelection.hp -= playerSelection.attack;
@@ -253,9 +252,10 @@ function performAttack() {
   }
 }
 
+// Actualizar la barra de vida de un Pokémon
 function updateHealthBar(side, hp) {
   const healthBar = document.getElementById(`${side}Health`);
-  const maxHp = side === "player" ? playerSelection.hp + opponentSelection.attack : opponentSelection.hp + playerSelection.attack;
+  const maxHp = 100; // Puedes ajustar esto según los valores de HP máximos
   const percentage = Math.max(0, (hp / maxHp) * 100);
 
   healthBar.style.width = `${percentage}%`;
@@ -269,13 +269,21 @@ function updateHealthBar(side, hp) {
   }
 }
 
+// Terminar la batalla
 function endBattle() {
   alert(playerSelection.hp <= 0 ? "¡Has perdido!" : "¡Has ganado!");
-  goToScreen("pantalla-seleccion");
+  window.location.href = "seleccion.html";
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  loadPokemonList();
-  const activeScreen = document.querySelector(".pantalla.active");
-  if (activeScreen.id === "pantalla-vs") showVsScreen();
+// Cargar la pantalla según el archivo actual
+document.addEventListener("DOMContentLoaded", () => {
+  const currentPage = window.location.pathname.split("/").pop();
+
+  if (currentPage === "SPokemon.html") {
+    loadPokemonList();
+  } else if (currentPage === "SPokemon2.html") {
+    showVsScreen();
+  } else if (currentPage === "SPokemon3.html") {
+    setupBattle();
+  }
 });
