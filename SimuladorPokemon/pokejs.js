@@ -153,80 +153,129 @@ const pokemons = [
     { id: 151, name: "Mew", img: "https://projectpokemon.org/images/normal-sprite/mew.gif", types: ["Psychic"], attack: 100, defense: 100, hp: 100 }
 ];
   
-  let playerSelection, opponentSelection;
-  
-  function loadPokemonList() {
-    const pokemonList = document.getElementById("pokemonList");
-    pokemonList.innerHTML = '';
-    
-    pokemons.forEach(pokemon => {
-      const card = document.createElement("div");
-      card.classList.add("pokemon-card");
-      card.innerHTML = `
-        <img src="${pokemon.img}" alt="${pokemon.name}">
-        <h3>${pokemon.name}</h3>
-        <p>Tipo: ${pokemon.types.join(", ")}</p>
-        <p>HP: ${pokemon.hp}</p>
-      `;
-      card.onclick = () => selectPokemon(pokemon);
-      pokemonList.appendChild(card);
-    });
-  }
-  
-  function selectPokemon(pokemon) {
-    playerSelection = pokemon;
-    opponentSelection = pokemons[Math.floor(Math.random() * pokemons.length)];
-  }
-  
-  function goToScreen(screenId) {
-    document.querySelectorAll(".pantalla").forEach(screen => screen.classList.remove("active"));
-    document.getElementById(screenId).classList.add("active");
-    
-    if (screenId === "pantalla-vs") {
-      showVsScreen();
-    }
-  }
-  
-  function showVsScreen() {
-    document.getElementById("playerPokemon").innerHTML = `
-      <img src="${playerSelection.img}" alt="${playerSelection.name}">
-      <h3>${playerSelection.name}</h3>
+let playerSelection, opponentSelection;
+
+function loadPokemonList() {
+  const pokemonList = document.getElementById("pokemonList");
+  pokemonList.innerHTML = '';
+
+  pokemons.forEach(pokemon => {
+    const card = document.createElement("div");
+    card.classList.add("pokemon-card");
+    card.innerHTML = `
+      <img src="${pokemon.img}" alt="${pokemon.name}">
+      <h3>${pokemon.name}</h3>
+      <p>Tipo: ${pokemon.types.join(", ")}</p>
+      <p>HP: ${pokemon.hp}</p>
     `;
-    document.getElementById("opponentPokemon").innerHTML = `
-      <img src="${opponentSelection.img}" alt="${opponentSelection.name}">
-      <h3>${opponentSelection.name}</h3>
-    `;
+    card.onclick = () => selectPokemon(pokemon);
+    pokemonList.appendChild(card);
+  });
+}
+
+function selectPokemon(pokemon) {
+  playerSelection = pokemon;
+
+  // Cambiar el fondo del Pokémon seleccionado
+  const cards = document.querySelectorAll(".pokemon-card");
+  cards.forEach(card => card.classList.remove("selected"));
+
+  const selectedElement = [...cards].find(
+    card => card.querySelector("h3").innerText === pokemon.name
+  );
+  if (selectedElement) {
+    selectedElement.classList.add("selected");
   }
-  
-  function performAttack() {
-    // Simulación simple de ataque
-    playerSelection.hp -= opponentSelection.attack;
-    opponentSelection.hp -= playerSelection.attack;
-    
-    document.getElementById("battleStats").innerText = `
-      ${playerSelection.name} HP: ${playerSelection.hp}\n
-      ${opponentSelection.name} HP: ${opponentSelection.hp}
-    `;
-    
-    if (playerSelection.hp <= 0 || opponentSelection.hp <= 0) {
-      endBattle();
-    }
+
+  opponentSelection = pokemons[Math.floor(Math.random() * pokemons.length)];
+}
+
+function goToScreen(screenId) {
+  document.querySelectorAll(".pantalla").forEach(screen => screen.classList.remove("active"));
+  document.getElementById(screenId).classList.add("active");
+
+  if (screenId === "pantalla-vs") {
+    showVsScreen();
+  } else if (screenId === "pantalla-combate") {
+    setupBattle();
   }
-  
-  function performDefend() {
-    // Simulación simple de defensa
-    playerSelection.defense += 5;
-    opponentSelection.defense += 5;
-    document.getElementById("battleStats").innerText = `
-      ${playerSelection.name} Defensa: ${playerSelection.defense}\n
-      ${opponentSelection.name} Defensa: ${opponentSelection.defense}
-    `;
+}
+function navigateToVs() {
+  if (!playerSelection) {
+    alert("Selecciona un Pokémon primero.");
+    return;
   }
-  
-  function endBattle() {
-    alert(playerSelection.hp <= 0 ? "¡Has perdido!" : "¡Has ganado!");
-    goToScreen("pantalla-seleccion");
+  localStorage.setItem("playerSelection", JSON.stringify(playerSelection));
+  window.location.href = "SPokemon2.html";
+}
+
+function navigateToCombate() {
+  opponentSelection = pokemons[Math.floor(Math.random() * pokemons.length)];
+  localStorage.setItem("opponentSelection", JSON.stringify(opponentSelection));
+  window.location.href = "SPokemon3.html";
+}
+function showVsScreen() {
+  document.getElementById("playerPokemon").innerHTML = `
+    <img src="${playerSelection.img}" alt="${playerSelection.name}">
+    <h3>${playerSelection.name}</h3>
+  `;
+  document.getElementById("opponentPokemon").innerHTML = `
+    <img src="${opponentSelection.img}" alt="${opponentSelection.name}">
+    <h3>${opponentSelection.name}</h3>
+  `;
+}
+
+function setupBattle() {
+  const playerImage = document.getElementById("playerImage");
+  const opponentImage = document.getElementById("opponentImage");
+  const playerHealthBar = document.getElementById("playerHealth");
+  const opponentHealthBar = document.getElementById("opponentHealth");
+
+  playerImage.src = playerSelection.img;
+  opponentImage.src = opponentSelection.img;
+
+  playerHealthBar.style.width = "100%";
+  playerHealthBar.style.backgroundColor = "green";
+
+  opponentHealthBar.style.width = "100%";
+  opponentHealthBar.style.backgroundColor = "green";
+}
+
+function performAttack() {
+  playerSelection.hp -= opponentSelection.attack;
+  opponentSelection.hp -= playerSelection.attack;
+
+  updateHealthBar("player", playerSelection.hp);
+  updateHealthBar("opponent", opponentSelection.hp);
+
+  if (playerSelection.hp <= 0 || opponentSelection.hp <= 0) {
+    endBattle();
   }
-  
-  // Inicialización
-  document.addEventListener("DOMContentLoaded", loadPokemonList);
+}
+
+function updateHealthBar(side, hp) {
+  const healthBar = document.getElementById(`${side}Health`);
+  const maxHp = side === "player" ? playerSelection.hp + opponentSelection.attack : opponentSelection.hp + playerSelection.attack;
+  const percentage = Math.max(0, (hp / maxHp) * 100);
+
+  healthBar.style.width = `${percentage}%`;
+
+  if (percentage > 50) {
+    healthBar.style.backgroundColor = "green";
+  } else if (percentage > 25) {
+    healthBar.style.backgroundColor = "yellow";
+  } else {
+    healthBar.style.backgroundColor = "red";
+  }
+}
+
+function endBattle() {
+  alert(playerSelection.hp <= 0 ? "¡Has perdido!" : "¡Has ganado!");
+  goToScreen("pantalla-seleccion");
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  loadPokemonList();
+  const activeScreen = document.querySelector(".pantalla.active");
+  if (activeScreen.id === "pantalla-vs") showVsScreen();
+});

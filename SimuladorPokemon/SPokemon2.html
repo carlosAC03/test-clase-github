@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modo Enfrentamiento</title>
+  <link rel="stylesheet" href="pokecss.css">
+</head>
+<body>
+  <header>
+    <h1>¡Enfrentamiento Pokémon!</h1>
+  </header>
+
+  <main>
+    <section id="pantalla-vs" class="pantalla active">
+      <h2>¡Enfrentamiento!</h2>
+      <div class="vs-container">
+        <div class="pokemon-display" id="playerPokemon"></div>
+        <span class="vs-text">VS</span>
+        <div class="pokemon-display" id="opponentPokemon"></div>
+      </div>
+      <button onclick="navigateToCombate()">Comenzar Batalla</button>
+    </section>
+  </main>
+
+  <script src="pokejs.js"></script>
+</body>
+</html>
