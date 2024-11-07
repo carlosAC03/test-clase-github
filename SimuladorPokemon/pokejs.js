@@ -193,9 +193,12 @@ function navigateToVs() {
 }
 
 function navigateToCombate() {
-  opponentSelection = pokemons[Math.floor(Math.random() * pokemons.length)];
-  localStorage.setItem("opponentSelection", JSON.stringify(opponentSelection));
-  window.location.href = "SPokemon3.html";
+  const opponentSelection = JSON.parse(localStorage.getItem("opponentSelection"));
+  if (!opponentSelection) {
+    const randomOpponent = pokemons[Math.floor(Math.random() * pokemons.length)];
+    localStorage.setItem("opponentSelection", JSON.stringify(randomOpponent)); 
+  }
+  window.location.href = "SPokemon3.html"; 
 }
 
 function showVsScreen() {
@@ -220,9 +223,16 @@ function setupBattle() {
   const playerData = JSON.parse(localStorage.getItem("playerSelection"));
   const opponentData = JSON.parse(localStorage.getItem("opponentSelection"));
 
+  if (!playerData || !opponentData) {
+    alert("Error al cargar los datos. Vuelve a seleccionar tus Pokémon.");
+    window.location.href = "SPokemon.html";
+    return;
+  }
+
   playerSelection = playerData;
   opponentSelection = opponentData;
 
+  // Configura las imágenes y barras de vida
   document.getElementById("playerImage").src = playerSelection.img;
   document.getElementById("opponentImage").src = opponentSelection.img;
 
@@ -234,13 +244,46 @@ function setupBattle() {
 }
 
 function performAttack() {
-  playerSelection.hp -= opponentSelection.attack;
-  opponentSelection.hp -= playerSelection.attack;
+  const randomFactor = Math.random() * (1 - 0.85) + 0.85;
 
+  // Calcula el daño infligido al oponente
+  const damageToOpponent = Math.floor((playerSelection.attack / opponentSelection.defense) * playerSelection.attack * randomFactor);
+  opponentSelection.hp -= damageToOpponent;
+
+  // Calcula el daño infligido al jugador
+  const damageToPlayer = Math.floor((opponentSelection.attack / playerSelection.defense) * opponentSelection.attack * randomFactor);
+  playerSelection.hp -= damageToPlayer;
+
+  // Actualiza las barras de salud
   updateHealthBar("player", playerSelection.hp);
   updateHealthBar("opponent", opponentSelection.hp);
 
+  // Verifica si hay un ganador
   if (playerSelection.hp <= 0 || opponentSelection.hp <= 0) {
+    endBattle();
+  }
+}
+
+function performCurar() {
+  const maxHp = playerSelection.hp; // Utiliza el HP base del Pokémon seleccionado
+  const healAmount = Math.floor(maxHp * 0.5); // Cura un 50% de su HP base
+
+  // Incrementa el HP del jugador, pero no supera el máximo
+  playerSelection.hp = Math.min(playerSelection.hp + healAmount, maxHp);
+
+  // Actualiza la barra de salud del jugador
+  updateHealthBar("player", playerSelection.hp);
+
+  // El oponente ataca después de que el jugador se defiende
+  const randomFactor = Math.random() * (1 - 0.85) + 0.85;
+  const damageToPlayer = Math.floor((opponentSelection.attack / playerSelection.defense) * opponentSelection.attack * randomFactor);
+  playerSelection.hp -= damageToPlayer;
+
+  // Actualiza la barra de salud del jugador después del ataque del oponente
+  updateHealthBar("player", playerSelection.hp);
+
+  // Verifica si hay un ganador
+  if (playerSelection.hp <= 0) {
     endBattle();
   }
 }

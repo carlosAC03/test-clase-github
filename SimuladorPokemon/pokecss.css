@@ -6,7 +6,37 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #ADD8E6;
+}
+
+.body1{
+  background-image: url(https://i.pinimg.com/236x/d6/3e/28/d63e2833ece914a63263c601aa414dd8.jpg);
+  margin: 0;
+  padding: 0;
+}
+
+.body2{
+  background-image: url(https://wallpapers.com/images/hd/pokemon-battle-background-4183-x-2236-73zwrq6smfz89vit.jpg);
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+.body3{
+  background-image: url(https://pbs.twimg.com/ext_tw_video_thumb/1506969310627045380/pu/img/XtjT3xcErgrqHuJN.jpg:large);
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+h2{
+color: #4CAF50;
+}
+
+.fondo{
+background-color: #ffffff;
+text-align: center;
+padding: 20px;
 }
 
 header {
@@ -61,6 +91,7 @@ main {
 .pokemon-card img {
   width: 100px;
   height: 100px;
+  object-fit: contain;
 }
 
 .pokemon-card.selected {
@@ -126,4 +157,12 @@ button {
   font-size: 16px;
   margin-top: 20px;
   cursor: pointer;
+  border-radius: 30%;
+  color: #ffffff;
+  background-color: black;
+}
+
+.bottonCentrar{
+  margin-left: 39%;
+  margin-top: 20%;
 }

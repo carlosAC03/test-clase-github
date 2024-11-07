@@ -11,7 +11,7 @@
     <h1>¡Batalla Pokémon!</h1>
   </header>
 
-  <main>
+  <main class="body3">
     <section id="pantalla-combate" class="pantalla active">
       <h2>¡Batalla en Curso!</h2>
       <div id="battleField">
@@ -29,8 +29,10 @@
             </div>
           </div>
         </div>
-        <button onclick="performAttack()">Atacar</button>
-        <button onclick="performDefend()">Defender</button>
+        <div class="bottonCentrar">
+          <button onclick="performAttack()">Atacar</button>
+          <button onclick="performCurar()">Curarse</button>
+        </div>
       </div>
     </section>
   </main>
