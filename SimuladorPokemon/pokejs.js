@@ -155,7 +155,6 @@ const pokemons = [
   
 let playerSelection, opponentSelection;
 
-// Cargar la lista de Pokémon en la pantalla de selección
 function loadPokemonList() {
   const pokemonList = document.getElementById("pokemonList");
   pokemonList.innerHTML = '';
@@ -174,7 +173,6 @@ function loadPokemonList() {
   });
 }
 
-// Seleccionar un Pokémon y destacar visualmente el seleccionado
 function selectPokemon(pokemon) {
   playerSelection = pokemon;
 
@@ -185,7 +183,6 @@ function selectPokemon(pokemon) {
   selectedCard.classList.add("selected");
 }
 
-// Navegar a la pantalla de enfrentamiento
 function navigateToVs() {
   if (!playerSelection) {
     alert("Selecciona un Pokémon primero.");
@@ -195,14 +192,12 @@ function navigateToVs() {
   window.location.href = "SPokemon2.html";
 }
 
-// Navegar a la pantalla de combate
 function navigateToCombate() {
   opponentSelection = pokemons[Math.floor(Math.random() * pokemons.length)];
   localStorage.setItem("opponentSelection", JSON.stringify(opponentSelection));
   window.location.href = "SPokemon3.html";
 }
 
-// Mostrar los datos en la pantalla de enfrentamiento
 function showVsScreen() {
   const playerData = JSON.parse(localStorage.getItem("playerSelection"));
   playerSelection = playerData;
@@ -221,7 +216,6 @@ function showVsScreen() {
   `;
 }
 
-// Configurar la batalla al entrar en la pantalla de combate
 function setupBattle() {
   const playerData = JSON.parse(localStorage.getItem("playerSelection"));
   const opponentData = JSON.parse(localStorage.getItem("opponentSelection"));
@@ -239,7 +233,6 @@ function setupBattle() {
   document.getElementById("opponentHealth").style.backgroundColor = "green";
 }
 
-// Realizar un ataque
 function performAttack() {
   playerSelection.hp -= opponentSelection.attack;
   opponentSelection.hp -= playerSelection.attack;
@@ -252,10 +245,9 @@ function performAttack() {
   }
 }
 
-// Actualizar la barra de vida de un Pokémon
 function updateHealthBar(side, hp) {
   const healthBar = document.getElementById(`${side}Health`);
-  const maxHp = 100; // Puedes ajustar esto según los valores de HP máximos
+  const maxHp = 100; 
   const percentage = Math.max(0, (hp / maxHp) * 100);
 
   healthBar.style.width = `${percentage}%`;
@@ -269,13 +261,11 @@ function updateHealthBar(side, hp) {
   }
 }
 
-// Terminar la batalla
 function endBattle() {
   alert(playerSelection.hp <= 0 ? "¡Has perdido!" : "¡Has ganado!");
-  window.location.href = "seleccion.html";
+  window.location.href = "SPokemon.html";
 }
 
-// Cargar la pantalla según el archivo actual
 document.addEventListener("DOMContentLoaded", () => {
   const currentPage = window.location.pathname.split("/").pop();
 
