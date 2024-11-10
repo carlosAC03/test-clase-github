@@ -234,7 +234,7 @@ function setupBattle() {
 
   if (!playerData || !opponentData) {
     alert("Error al cargar los datos. Vuelve a seleccionar tus Pokémon.");
-    window.location.href = "SPokemon.html";
+    window.location.href = "Index.html";
     return;
   }
   playerSelection = { ...playerData, maxHp: playerData.hp };
@@ -329,14 +329,14 @@ function endBattle() {
   const resultado = playerSelection.hp <= 0 ? "¡Has perdido!" : "¡Has ganado!";
   setTimeout(() => {
     alert(resultado);
-    window.location.href = "SPokemon.html";
+    window.location.href = "Index.html";
   }, 1000);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const currentPage = window.location.pathname.split("/").pop();
 
-  if (currentPage === "SPokemon.html") {
+  if (currentPage === "Index.html") {
     loadPokemonList();
   } else if (currentPage === "SPokemon2.html") {
     showVsScreen();
