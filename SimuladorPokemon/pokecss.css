@@ -111,6 +111,12 @@ main {
   padding: 10px;
 }
 
+.pokemon-display2 {
+  text-align: center;
+  padding: 10px;
+  margin-top: 9%;
+}
+
 .vs-text {
   font-size: 24px;
   margin: 0 20px;
@@ -145,11 +151,22 @@ main {
   overflow: hidden;
 }
 
+.health-bar2 {
+  width: 200px;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-left: 50px;
+  position: relative;
+  overflow: hidden;
+}
+
 .health {
   width: 100%;
   height: 100%;
   background-color: green;
-  transition: width 0.5s, background-color 0.5s;
+  transition: width 1.5s, background-color 1.5s;
 }
 
 button {
@@ -166,3 +183,10 @@ button {
   margin-left: 39%;
   margin-top: 20%;
 }
+
+.batalla{
+  margin-left: 5%;
+  margin-bottom: 5%;
+  color: #ffffff;
+}
+
