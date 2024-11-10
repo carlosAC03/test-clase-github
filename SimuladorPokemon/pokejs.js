@@ -305,11 +305,11 @@ function updateHealthBar(side, hp) {
 
   healthBar.style.width = `${percentage}%`;
 
-  if (percentage < 50) {
+  if (percentage > 50) {
     healthBar.style.backgroundColor = "green";
-  } else if (percentage < 25) {
+  } else if (percentage > 15) {
     healthBar.style.backgroundColor = "yellow";
-  } else if (percentage < 10) {
+  } else if (percentage > 0) {
     healthBar.style.backgroundColor = "red";
   } else {
     healthBar.style.backgroundColor = "transparent";
