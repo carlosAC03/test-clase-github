@@ -160,11 +160,17 @@ function loadPokemonList() {
   pokemonList.innerHTML = "";
 
   pokemons.forEach(pokemon => {
+    const isShiny = Math.random() < 0.05; 
+    const img = isShiny
+      ? pokemon.img.replace("normal-sprite", "shiny-sprite")
+      : pokemon.img;
+    const shinyLabel = isShiny ? "✨" : "";
+
     const card = document.createElement("div");
     card.classList.add("pokemon-card");
     card.innerHTML = `
-      <img src="${pokemon.img}" alt="${pokemon.name}">
-      <h3>${pokemon.name}</h3>
+      <img src="${img}" alt="${pokemon.name}">
+      <h3>${pokemon.name} ${shinyLabel}</h3>
       <p>Tipo: ${pokemon.types.join(", ")}</p>
       <p>HP: ${pokemon.hp}</p>
     `;
