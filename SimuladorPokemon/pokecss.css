@@ -153,17 +153,6 @@ main {
   overflow: hidden;
 }
 
-.health-bar2 {
-  width: 200px;
-  height: 20px;
-  background-color: #ddd;
-  border-radius: 10px;
-  margin-top: 10px;
-  margin-left: 50px;
-  position: relative;
-  overflow: hidden;
-}
-
 .health {
   width: 100%;
   height: 100%;
@@ -195,4 +184,3 @@ button {
 .enfrentamiento{
   color: #ffffff;
 }
-
