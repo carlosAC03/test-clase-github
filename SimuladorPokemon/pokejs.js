@@ -181,12 +181,15 @@ function loadPokemonList() {
 
 function selectPokemon(pokemon) {
   playerSelection = pokemon;
-
   document.querySelectorAll(".pokemon-card").forEach(card => card.classList.remove("selected"));
-  const selectedCard = [...document.querySelectorAll(".pokemon-card")].find(
-    card => card.querySelector("h3").innerText === pokemon.name
-  );
-  selectedCard.classList.add("selected");
+  const selectedCard = [...document.querySelectorAll(".pokemon-card")].find(card => {
+    const imgAlt = card.querySelector("img").alt;
+    return imgAlt === pokemon.name;
+  });
+
+  if (selectedCard) {
+    selectedCard.classList.add("selected");
+  }
 }
 
 function navigateToVs() {
