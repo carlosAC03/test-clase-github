@@ -40,10 +40,12 @@ padding: 20px;
 }
 
 header {
-  background-color: #4CAF50;
-  color: white;
+  background-image: url(https://wallpapers.com/images/hd/emerald-green-pokemon-game-map-9wtwfltdysyaa91k.jpg);
+  color: #4CAF50;
   text-align: center;
   padding: 20px;
+  background-size: contain;
+  
 }
 
 main {
